@@ -3,29 +3,22 @@ package ru.stqa.pft.sandbox;
 public class MyFirstProgram {
 
   public static void main(String[] args) {
-    hello("world");
-    hello("user");
-    hello("Alexei");
 
-    double l = 5;
-    System.out.println("Площадь квадрата со стороной" + l + "=" + area(l));
+    System.out.println("Class Point");
+    Point p1 = new Point(3, 6);
+    Point p2 = new Point(8, 1);
 
-    double a = 4;
-    double b = 6;
-    System.out.println("Площадь прямоугольника со сторонами " + a + "и" + b + "=" + area(a, b));
+      /* реализация с помощью функции*/
+    System.out.println("distance function (" + p1.x + "," + p1.y + "), (" + p2.x + "," + p2.y + ") = " + distance(p1, p2));
+
+     /* метод в классе Point*/
+    System.out.println("distance method (" + p1.x + "," + p1.y + "), (" + p2.x + "," + p2.y + ") = " + p1.distance(p2));
+  }
+  /* функция */
+  public static double distance(Point p1, Point p2) {
+    return Math.sqrt((p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y));
   }
 
-  public static void hello(String somebody) {
-    System.out.println("Hello, " + somebody + "!");
-  }
-
-  public static double area(double len) {
-    return len * len;
-  }
-
-  public static double area(double a, double b) {
-    return a * b;
-  }
 }
 
 
