@@ -2,27 +2,31 @@ package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
-/**
- * Created by AKuznetsov on 06.12.2016.
- */
+
 public class HelperBase {
-  protected FirefoxDriver wd;
+  protected WebDriver wd;
 
-  public HelperBase(FirefoxDriver wd) {
-    this.wd=wd;
+  public HelperBase(WebDriver wd) {
+    this.wd = wd;
   }
 
   protected void click(By locator) {
-    wd.findElement(locator).click();
+    findElement(locator).click();
+  }
+
+  private WebElement findElement(By locator) {
+    return wd.findElement(locator);
   }
 
   protected void type(By locator, String text) {
-    click(locator);
-    wd.findElement(locator).clear();
-    wd.findElement(locator).sendKeys(text);
+    WebElement element = findElement(locator);
+    element.clear();
+    element.sendKeys(text);
   }
+
   public boolean isAlertPresent() {
     try {
       wd.switchTo().alert();
@@ -30,5 +34,15 @@ public class HelperBase {
     } catch (NoAlertPresentException e) {
       return false;
     }
+  }
+
+  protected void closeAlert() {
+    if (isAlertPresent()==true) {
+      wd.switchTo().alert().accept();
+    }
+  }
+
+  protected boolean isCheckBoxSelected(By by) {
+    return findElement(by).isSelected();
   }
 }

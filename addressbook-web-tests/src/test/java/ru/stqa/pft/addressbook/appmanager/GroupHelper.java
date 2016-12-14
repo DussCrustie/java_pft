@@ -1,17 +1,14 @@
 package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import ru.stqa.pft.addressbook.model.GroupData;
 
-/**
- * Created by AKuznetsov on 06.12.2016.
- */
-public class GroupHelper extends HelperBase{
+public class GroupHelper extends HelperBase {
 
-  public GroupHelper(FirefoxDriver wd) {
+  public GroupHelper(WebDriver wd) {
     super(wd);
-
   }
 
   public void returnToGroupPage() {
@@ -37,6 +34,17 @@ public class GroupHelper extends HelperBase{
   }
 
   public void selectGroup() {
-    click(By.name("selected[]"));
+    if (!isCheckBoxSelected(By.name("selected[]"))) {
+      click(By.name("selected[]"));
+    }
   }
+
+  public void initGroupModification() {
+    click(By.name("edit"));
+  }
+
+  public void submitGroupModification() {
+    click(By.name("update"));
+  }
+
 }
