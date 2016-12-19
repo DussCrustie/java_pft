@@ -8,7 +8,7 @@ import org.openqa.selenium.remote.BrowserType;
 
 import java.util.concurrent.TimeUnit;
 
-
+import java.util.Objects;
 public class ApplicationManager {
 
  WebDriver wd;
@@ -37,7 +37,7 @@ public class ApplicationManager {
     groupHalper = new GroupHelper(wd);
     navigationHelper = new NavigationHelper(wd);
     SessionHelper = new SessionHelper(wd);
-    contactHelper = new ContactHelper(navigationHelper.wd);
+    contactHelper = new ContactHelper(wd);
     SessionHelper.login("admin", "secret");
   }
 
