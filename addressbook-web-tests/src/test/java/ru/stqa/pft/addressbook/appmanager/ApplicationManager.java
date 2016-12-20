@@ -47,15 +47,19 @@ public class ApplicationManager {
     wd.quit();
   }
 
-  public GroupHelper getGroupHalper() {
+  public GroupHelper group() {
     return groupHalper;
   }
 
-  public NavigationHelper getNavigationHelper() {
+  public NavigationHelper goTo() {
     return navigationHelper;
   }
 
   public ContactHelper getContactHelper() {
     return contactHelper;
+  }
+
+  public NavigationHelper getNavigationHelper() {
+    return navigationHelper;
   }
 }
