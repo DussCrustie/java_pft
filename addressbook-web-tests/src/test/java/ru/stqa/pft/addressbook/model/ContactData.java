@@ -1,35 +1,53 @@
 package ru.stqa.pft.addressbook.model;
 
-  public class ContactData {
+public class ContactData {
   private int id = Integer.MAX_VALUE;
   private  String firstname;
+  private  String middlename;
   private  String lastname;
+  private  String nickname;
+  private  String title;
+  private  String company;
   private  String address;
   private  String home;
   private  String work;
   private  String mobile;
+  private  String fax;
   private  String group;
   private  String email1;
   private  String email2;
   private  String email3;
   private  String allPhones;
-  public   String allEmails;
+  private  String allEmails;
+  private  String allDetails;
+
+  public String getAllDetails() {
+    return allDetails;
+  }
+
+  public ContactData withAllDetails(String allDetails) {
+    this.allDetails = allDetails;
+    return this;
+  }
 
   public String getAllEmails() {
     return allEmails;
   }
 
+  public ContactData withAllEmails(String allEmails) {
+    this.allEmails = allEmails;
+    return this;
+  }
+
   public String getEmail1() {
     return email1;
+  }
+  public String getAddress() {
+    return address;
   }
 
   public ContactData withEmail1(String email1) {
     this.email1 = email1;
-    return this;
-  }
-
-  public ContactData withAllEmails(String allEmails) {
-    this.allEmails = allEmails;
     return this;
   }
 
@@ -69,8 +87,6 @@ package ru.stqa.pft.addressbook.model;
     this.lastname = lastname;
     return this;
   }
-
-
   public ContactData withAddress(String address) {
     this.address = address;
     return this;
@@ -91,6 +107,7 @@ package ru.stqa.pft.addressbook.model;
     return this;
   }
 
+
   public ContactData withGroup(String group) {
     this.group = group;
     return this;
@@ -109,15 +126,8 @@ package ru.stqa.pft.addressbook.model;
     return firstname;
   }
 
-
-
   public String getLastname() {
     return lastname;
-  }
-
-
-  public String getAddress() {
-    return address;
   }
 
   public String getHome() {
@@ -132,15 +142,13 @@ package ru.stqa.pft.addressbook.model;
     return mobile;
   }
 
-
-
   public String getGroup() {
     return group;
   }
 
   @Override
   public String toString() {
-    return "ContactData{" +
+    return "PersonData{" +
             "id=" + id +
             ", firstname='" + firstname + '\'' +
             ", lastname='" + lastname + '\'' +

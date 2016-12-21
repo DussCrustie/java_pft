@@ -18,7 +18,7 @@ public class ContactCreationTests extends TestBase {
             .withAddress("NiNo city, Gagarina street 2 - 33").withMobile("89662468855")
             .withAllEmails("Ivanov@mail.ru").withGroup("test1");
     app.contact().create(contact);
-    app.contact().returnToHomePage();
+    app.contact().returnToContactPage();
     Contacts after = app.contact().all();
     assertThat(after.size(), equalTo(before.size() + 1));
     assertThat(after, equalTo(
