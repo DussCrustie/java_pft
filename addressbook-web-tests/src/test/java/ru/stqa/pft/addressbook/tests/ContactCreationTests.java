@@ -1,32 +1,27 @@
 package ru.stqa.pft.addressbook.tests;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
-import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.ContactData;
+import ru.stqa.pft.addressbook.model.Contacts;
 
-import java.util.Comparator;
-import java.util.List;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactCreationTests extends TestBase {
 
-  @Test(enabled=false)
-  public void testContactCreation() {
+  @Test
+  public void ContactCreationTests() {
 
-    List<ContactData> before = app.getContactHelper().getContactList();
-
-    ContactData contact = new ContactData("gsdg", "geega", "fff city, jjj street 44 - 14", "89005553322", "Ivanov@mail.ru", "test1");
-    app.getContactHelper().createContact(contact);
-    app.getContactHelper().returnToContactPage();
-    List<ContactData> after = app.getContactHelper().getContactList();
-    Assert.assertEquals(after.size(), before.size() + 1);
-    //contact.setId(after.stream().max((o1, o2) -> Integer.compare(o1.getId(), o2.getId())).get().getId());
-    before.add(contact);
-    Comparator<? super ContactData> byId = (c1, c2) -> Integer.compare(c1.getId(), c2.getId());
-    before.sort(byId);
-    after.sort(byId);
-    Assert.assertEquals(after, before);
+    app.goTo().gotoHomePage();
+    Contacts before = app.contact().all();
+    ContactData contact = new ContactData().withFirstname("Ivan").withLastname("Ivanov")
+            .withAddress("NiNo city, Gagarina street 2 - 33").withMobile("89662468855")
+            .withEmail("Ivanov@mail.ru").withGroup("test1");
+    app.contact().create(contact);
+    app.contact().returnToHomePage();
+    Contacts after = app.contact().all();
+    assertThat(after.size(), equalTo(before.size() + 1));
+    assertThat(after, equalTo(
+            before.withAdded(contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
   }
-  //app.getContactHelper().fillContactForm(new ContactData("gsdg", "geega", "fff city, jjj street 44 - 14", "89005553322", "Ivanov@mail.ru", "test1"),true);
-  //app.getContactHelper().submitContactCreation();
 }
