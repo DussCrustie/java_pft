@@ -12,11 +12,11 @@ public class ContactCreationTests extends TestBase {
   @Test
   public void ContactCreationTests() {
 
-    app.goTo().gotoHomePage();
+    app.goTo().HomePage();
     Contacts before = app.contact().all();
     ContactData contact = new ContactData().withFirstname("Ivan").withLastname("Ivanov")
             .withAddress("NiNo city, Gagarina street 2 - 33").withMobile("89662468855")
-            .withEmail("Ivanov@mail.ru").withGroup("test1");
+            .withAllEmails("Ivanov@mail.ru").withGroup("test1");
     app.contact().create(contact);
     app.contact().returnToHomePage();
     Contacts after = app.contact().all();
