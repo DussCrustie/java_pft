@@ -1,6 +1,11 @@
 package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+
+import java.io.File;
 
 
 public class HelperBase {
@@ -9,14 +14,16 @@ public class HelperBase {
   public HelperBase(WebDriver wd) {
     this.wd = wd;
   }
+    /*protected void firstname(By locator, String text) {
+    click(locator);
+    wd.findElement(locator).clear();
+    wd.findElement(locator).sendKeys(text);
+  }*/
 
   protected void click(By locator) {
-    findElement(locator).click();
+    wd.findElement(locator).click();
   }
 
-  protected WebElement findElement(By locator) {
-    return wd.findElement(locator);
-  }
 
   protected void type(By locator, String text) {
     click(locator);
@@ -29,6 +36,13 @@ public class HelperBase {
 
     }
   }
+
+  protected void attach(By locator, File file) {
+    if (file != null) {
+      wd.findElement(locator).sendKeys(file.getAbsolutePath());
+    }
+  }
+
 
   public boolean isAlertPresent() {
     try {
@@ -43,10 +57,6 @@ public class HelperBase {
     if (isAlertPresent()==true) {
       wd.switchTo().alert().accept();
     }
-  }
-
-  protected boolean isCheckBoxSelected(By by) {
-    return findElement(by).isSelected();
   }
 
   protected boolean isElementPresent(By locator) {

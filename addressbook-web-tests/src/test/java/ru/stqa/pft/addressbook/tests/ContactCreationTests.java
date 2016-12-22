@@ -1,27 +1,84 @@
 package ru.stqa.pft.addressbook.tests;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.thoughtworks.xstream.XStream;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.ContactData;
+import ru.stqa.pft.addressbook.model.Contacts;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactCreationTests extends TestBase {
 
-  @Test
-  public void ContactCreationTests() {
+  @DataProvider
+  public Iterator<Object[]> validPersonFromJson() throws IOException {
 
-    app.goTo().HomePage();
+    BufferedReader reader = new BufferedReader(new FileReader(new File("C:\\Devel\\java_pft\\addressbook-web-tests\\src\\test\\resources\\contacts.json")));
+    String json = "";
+    String line = reader.readLine();
+    while (line != null) {
+      json += line;
+      line = reader.readLine();
+    }
+    Gson gson = new Gson();
+    List<ContactData> groups = gson.fromJson(json, new TypeToken<List<ContactData>>(){}.getType());
+    return  groups.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
+
+  }
+
+  @DataProvider
+  public Iterator<Object[]> validContacts() throws IOException {
+
+    BufferedReader reader = new BufferedReader(new FileReader(new File("C:\\Devel\\java_pft\\addressbook-web-tests\\src\\test\\resources\\contacts.xml")));
+    String xml = "";
+    String line = reader.readLine();
+    while (line != null) {
+      xml += line;
+      line = reader.readLine();
+    }
+    XStream xStream = new XStream();
+    xStream.processAnnotations(ContactData.class);
+    List<ContactData> persons = (List<ContactData>)xStream.fromXML(xml);
+    return  persons.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
+  }
+
+  @Test(dataProvider = "validContacts")
+  public void ContactCreationTests(ContactData contact) {
+
+    app.goTo().ContactPage();
     Contacts before = app.contact().all();
-    ContactData contact = new ContactData().withFirstname("Ivan").withLastname("Ivanov")
-            .withAddress("NiNo city, Gagarina street 2 - 33").withMobile("89662468855")
-            .withAllEmails("Ivanov@mail.ru").withGroup("test1");
+    File photo = new File("src/test/resources/stru.png");
+    //ContactData contact = new ContactData().withFirstname("test_1").withLastname("test2").withGroup("[none]").withWork("111").withMobile("222").withHome("777").withPhoto(photo);
     app.contact().create(contact);
     app.contact().returnToContactPage();
     Contacts after = app.contact().all();
     assertThat(after.size(), equalTo(before.size() + 1));
     assertThat(after, equalTo(
-            before.withAdded(contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
+            before.withAdded(contact.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
+
   }
+
+  @Test(enabled = false)
+  public void  testCurrentDir(){
+    File currentDir = new File(".");
+    System.out.println(currentDir.getAbsolutePath());
+    File photo = new File("src/test/resources/stru.png");
+    System.out.println(photo.getAbsolutePath());
+    System.out.println(photo.exists());
+  }
+
 }

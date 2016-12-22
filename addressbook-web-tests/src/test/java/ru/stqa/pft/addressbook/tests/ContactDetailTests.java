@@ -13,7 +13,7 @@ public class ContactDetailTests extends TestBase {
 
   @BeforeMethod
   public void ensurePreconditions(){
-    app.goTo().HomePage();
+    app.goTo().ContactPage();
     if (app.contact().all().size()==0){
       app.contact().create(new ContactData().withFirstname("test_1").withLastname("test2").withHome("836678")
               .withMobile("89501234448").withWork("+495144").withAddress("fsafs")
@@ -22,7 +22,7 @@ public class ContactDetailTests extends TestBase {
   }
   @Test
   public void testPersonAddress() {
-    app.goTo().HomePage();
+    app.goTo().ContactPage();
     ContactData contact = app.contact().all().iterator().next();
     ContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
     ContactData contactInfoDetails = app.contact().infoDetailForm(contact);

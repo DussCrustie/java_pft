@@ -1,0 +1,26 @@
+<list>
+  <ru.stqa.pft.addressbook.model.PersonData>
+    <firstname>test 0</firstname>
+    <lastname>Lastname 0</lastname>
+    <home>Home 0</home>
+    <work>Work 0</work>
+    <mobile>Mobile 0</mobile>
+    <group>[none]</group>
+  </ru.stqa.pft.addressbook.model.PersonData>
+  <ru.stqa.pft.addressbook.model.PersonData>
+    <firstname>test 1</firstname>
+    <lastname>Lastname 1</lastname>
+    <home>Home 1</home>
+    <work>Work 1</work>
+    <mobile>Mobile 1</mobile>
+    <group>[none]</group>
+  </ru.stqa.pft.addressbook.model.PersonData>
+  <ru.stqa.pft.addressbook.model.PersonData>
+    <firstname>test 2</firstname>
+    <lastname>Lastname 2</lastname>
+    <home>Home 2</home>
+    <work>Work 2</work>
+    <mobile>Mobile 2</mobile>
+    <group>[none]</group>
+  </ru.stqa.pft.addressbook.model.PersonData>
+</list>
