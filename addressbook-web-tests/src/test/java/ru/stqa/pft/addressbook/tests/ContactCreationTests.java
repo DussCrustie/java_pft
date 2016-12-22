@@ -8,8 +8,7 @@ import org.testng.annotations.Test;
 
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
-import ru.stqa.pft.addressbook.model.ContactData;
-import ru.stqa.pft.addressbook.model.Contacts;
+
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -25,7 +24,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class ContactCreationTests extends TestBase {
 
   @DataProvider
-  public Iterator<Object[]> validPersonFromJson() throws IOException {
+  public Iterator<Object[]> validContactFromJson() throws IOException {
 
     BufferedReader reader = new BufferedReader(new FileReader(new File("C:\\Devel\\java_pft\\addressbook-web-tests\\src\\test\\resources\\contacts.json")));
     String json = "";
@@ -52,8 +51,8 @@ public class ContactCreationTests extends TestBase {
     }
     XStream xStream = new XStream();
     xStream.processAnnotations(ContactData.class);
-    List<ContactData> persons = (List<ContactData>)xStream.fromXML(xml);
-    return  persons.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
+    List<ContactData> contacts = (List<ContactData>)xStream.fromXML(xml);
+    return  contacts.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
   }
 
   @Test(dataProvider = "validContacts")
@@ -62,7 +61,6 @@ public class ContactCreationTests extends TestBase {
     app.goTo().ContactPage();
     Contacts before = app.contact().all();
     File photo = new File("src/test/resources/stru.png");
-    //ContactData contact = new ContactData().withFirstname("test_1").withLastname("test2").withGroup("[none]").withWork("111").withMobile("222").withHome("777").withPhoto(photo);
     app.contact().create(contact);
     app.contact().returnToContactPage();
     Contacts after = app.contact().all();
