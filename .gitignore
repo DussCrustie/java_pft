@@ -19,3 +19,4 @@ sandbox/gradle/wrapper/gradle-wrapper.properties
 sandbox/gradle/wrapper/gradle-wrapper.properties
 *.properties
 sandbox/gradle/wrapper/gradle-wrapper.properties
+*.log
