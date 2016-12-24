@@ -1,32 +1,70 @@
 package ru.stqa.pft.addressbook.model;
+import com.google.gson.annotations.Expose;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.hibernate.annotations.Type;
 
+import javax.persistence.*;
 import java.io.File;
 
+@Entity
+@Table(name="addressbook")
+
   public class ContactData {
+  @XStreamOmitField
+  @Id
+  @Column(name="id")
   private int id = Integer.MAX_VALUE;
+  @Expose
+  @Column(name="firstname")
   private  String firstname;
+  @Transient
+  @Column(name="lastname")
   private  String lastname;
+  @Transient
   private  String address;
+  @Transient
+  @Expose
+  @Column(name = "home")
+  @Type(type = "text")
   private  String home;
+  @Transient
   private  String work;
+  @Expose
+  @Column(name = "mobile")
+  @Type(type = "text")
   private  String mobile;
+  @Transient
   private  String group;
+  @Transient
   private  String email1;
+  @Transient
   private  String email2;
+  @Transient
   private  String email3;
+  @Transient
   private  String allPhones;
+  @Transient
   private  String allEmails;
+  @Transient
   private  String allDetails;
-  private File photo;
+
+  @Override
+  public String toString() {
+    return "ContactData{" + "id=" + id + ", firstname='" + firstname + '\'' + ", lastname='" + lastname + '\'' + '}';
+  }
+
+ /*@Column(name="photo")
+  @Type(type = "text")
+  private String photo;
 
   public File getPhoto() {
-    return photo;
+    return new File (photo);
   }
 
   public ContactData withPhoto(File photo) {
-    this.photo = photo;
+    this.photo = photo.getPath();
     return this;
-  }
+  }*/
 
   public String getAllDetails() {
     return allDetails;
@@ -151,15 +189,6 @@ import java.io.File;
 
   public String getGroup() {
     return group;
-  }
-
-  @Override
-  public String toString() {
-    return "PersonData{" +
-            "id=" + id +
-            ", firstname='" + firstname + '\'' +
-            ", lastname='" + lastname + '\'' +
-            '}';
   }
 
   @Override

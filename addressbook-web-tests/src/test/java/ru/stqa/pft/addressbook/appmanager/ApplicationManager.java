@@ -25,6 +25,7 @@ public class ApplicationManager {
   private GroupHelper groupHalper;
   private SessionHelper sessionHelper;
   private String browser;
+  private DbHelper dbHelper;
 
   public ApplicationManager(String browser) {
     this.browser = browser;
@@ -36,6 +37,7 @@ public class ApplicationManager {
 
     String target = System.getProperty("target", "local");
     properties.load(new FileReader(new File(String.format("C://Devel//java_pft//addressbook-web-tests/src/test/resources/%s.properties", target))));
+    dbHelper = new DbHelper();
     if (Objects.equals(browser, BrowserType.FIREFOX)) {
       wd = new FirefoxDriver();
     } else if (Objects.equals(browser, BrowserType.CHROME)) {
@@ -68,5 +70,9 @@ public class ApplicationManager {
 
   public ContactHelper contact() {
     return contactHelper;
+  }
+
+  public DbHelper db() {
+    return dbHelper;
   }
 }

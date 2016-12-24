@@ -30,9 +30,9 @@ task testGroups(type: Test){
     }
 }
 
-task testPersons(type: Test){
+task testContacts(type: Test){
     useTestNG(){
-        suites 'L:/Devel/java_pft/addressbook-web-tests/src/test/resources/testng-persons.xml'
+        suites 'L:/Devel/java_pft/addressbook-web-tests/src/test/resources/testng-contacts.xml'
     }
     if (project.hasProperty('browser')) {
         systemProperty 'browser', "${browser}"
