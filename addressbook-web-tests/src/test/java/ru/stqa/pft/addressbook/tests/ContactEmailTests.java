@@ -12,18 +12,18 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class ContactEmailTests extends TestBase{
 
   @Test
-  public void testPersonAddress(){
+  public void testContactAddress(){
     app.goTo().ContactPage();
-    ContactData person = app.contact().all().iterator().next();
-    ContactData personInfoFromEditForm = app.contact().infoFromEditForm(person);
+    ContactData contact = app.contact().all().iterator().next();
+    ContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
 
-    assertThat(person.getAllEmails(), equalTo(mergeEmail(personInfoFromEditForm)));
+    assertThat(contact.getAllEmails(), equalTo(mergeEmail(contactInfoFromEditForm)));
 
   }
 
-  private String mergeEmail(ContactData person) {
+  private String mergeEmail(ContactData contact) {
 
-    return Arrays.asList(person.getEmail1(), person.getEmail2(), person.getEmail3())
+    return Arrays.asList(contact.getEmail1(), contact.getEmail2(), contact.getEmail3())
             .stream().filter((s) -> ! s.equals(""))
             .map(ContactEmailTests::cleaned)
             .collect(Collectors.joining("\n"));
