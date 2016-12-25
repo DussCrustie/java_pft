@@ -17,7 +17,7 @@ public class ContactModificationTests extends TestBase {
 
     if (app.db().contacts().size()==0){
       app.goTo().ContactPage();
-      app.contact().create(new ContactData().withFirstname("test_1").withLastname("test2").withGroup("[none]"));
+      app.contact().create(new ContactData().withFirstname("test_1").withLastname("test2"));
     }
   }
 
