@@ -6,6 +6,7 @@ import com.thoughtworks.xstream.XStream;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import ru.stqa.pft.addressbook.model.Groups;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 
@@ -34,7 +35,8 @@ public class ContactCreationTests extends TestBase {
       line = reader.readLine();
     }
     Gson gson = new Gson();
-    List<ContactData> groups = gson.fromJson(json, new TypeToken<List<ContactData>>(){}.getType());
+    List<ContactData> groups = gson.fromJson(json, new TypeToken<List<ContactData>>(){
+    }.getType());
     return  groups.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
 
   }
@@ -63,10 +65,11 @@ public class ContactCreationTests extends TestBase {
     File photo = new File("src/test/resources/stru.png");
     app.contact().create(contact);
     app.contact().returnToContactPage();
-    Contacts after = app.contact().all();
+    Contacts after = app.db().contacts();
     assertThat(after.size(), equalTo(before.size() + 1));
     assertThat(after, equalTo(
             before.withAdded(contact.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
+    verifyContactListInUI();
 
   }
 

@@ -1,28 +1,38 @@
 package ru.stqa.pft.addressbook.model;
+
 import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name="addressbook")
+@Table(name = "addressbook")
+public class ContactData {
 
-  public class ContactData {
   @XStreamOmitField
   @Id
-  @Column(name="id")
+  @Column(name = "id")
   private int id = Integer.MAX_VALUE;
   @Expose
-  @Column(name="firstname")
+  @Column(name = "firstname")
   private  String firstname;
   @Transient
-  @Column(name="lastname")
+  private  String middlename;
+  @Expose
+  @Column(name = "lastname")
   private  String lastname;
   @Transient
-  private  String address;
+  private  String nickname;
   @Transient
+  private  String title;
+  @Transient
+  private  String company;
+  @Transient
+  private  String address;
   @Expose
   @Column(name = "home")
   @Type(type = "text")
@@ -34,7 +44,7 @@ import java.io.File;
   @Type(type = "text")
   private  String mobile;
   @Transient
-  private  String group;
+  private  String fax;
   @Transient
   private  String email1;
   @Transient
@@ -47,24 +57,11 @@ import java.io.File;
   private  String allEmails;
   @Transient
   private  String allDetails;
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "address_in_groups",
+          joinColumns = @JoinColumn(name = "id"),inverseJoinColumns = @JoinColumn(name = "group_id"))
+  private Set<GroupData> groups = new HashSet<GroupData>();
 
-  @Override
-  public String toString() {
-    return "ContactData{" + "id=" + id + ", firstname='" + firstname + '\'' + ", lastname='" + lastname + '\'' + '}';
-  }
-
- /*@Column(name="photo")
-  @Type(type = "text")
-  private String photo;
-
-  public File getPhoto() {
-    return new File (photo);
-  }
-
-  public ContactData withPhoto(File photo) {
-    this.photo = photo.getPath();
-    return this;
-  }*/
 
   public String getAllDetails() {
     return allDetails;
@@ -86,9 +83,6 @@ import java.io.File;
 
   public String getEmail1() {
     return email1;
-  }
-  public String getAddress() {
-    return address;
   }
 
   public ContactData withEmail1(String email1) {
@@ -128,10 +122,31 @@ import java.io.File;
     return this;
   }
 
+  public ContactData withMiddlename(String middlename) {
+    this.middlename = middlename;
+    return this;
+  }
+
   public ContactData withLastname(String lastname) {
     this.lastname = lastname;
     return this;
   }
+
+  public ContactData withNickname(String nickname) {
+    this.nickname = nickname;
+    return this;
+  }
+
+  public ContactData withTitle(String title) {
+    this.title = title;
+    return this;
+  }
+
+  public ContactData withCompany(String company) {
+    this.company = company;
+    return this;
+  }
+
   public ContactData withAddress(String address) {
     this.address = address;
     return this;
@@ -152,9 +167,8 @@ import java.io.File;
     return this;
   }
 
-
-  public ContactData withGroup(String group) {
-    this.group = group;
+  public ContactData withFax(String fax) {
+    this.fax = fax;
     return this;
   }
 
@@ -175,6 +189,10 @@ import java.io.File;
     return lastname;
   }
 
+  public String getAddress() {
+    return address;
+  }
+
   public String getHome() {
     return home;
   }
@@ -187,8 +205,17 @@ import java.io.File;
     return mobile;
   }
 
-  public String getGroup() {
-    return group;
+  public Groups getGroups() {
+    return new Groups(groups);
+  }
+
+  @Override
+  public String toString() {
+    return "ContactData{" +
+            "id=" + id +
+            ", firstname='" + firstname + '\'' +
+            ", lastname='" + lastname + '\'' +
+            '}';
   }
 
   @Override
@@ -209,5 +236,10 @@ import java.io.File;
     result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
     result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
     return result;
+  }
+
+  public ContactData inGroup(GroupData group) {
+    groups.add(group);
+    return this;
   }
 }

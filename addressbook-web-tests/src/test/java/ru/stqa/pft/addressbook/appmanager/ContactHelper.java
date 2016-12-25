@@ -6,9 +6,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
+import ru.stqa.pft.addressbook.model.GroupData;
+import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 
 import java.util.List;
+
 
 public class ContactHelper extends HelperBase{
 
@@ -19,23 +22,18 @@ public class ContactHelper extends HelperBase{
   public void fillContactForm(ContactData contactData, boolean creation) {
     type(By.name("firstname"), contactData.getFirstname());
     type(By.name("lastname"), contactData.getLastname());
+    //click(By.name("company"));
     type(By.name("address"), contactData.getAddress());
+    //click(By.name("theform"));
     type(By.name("home"), contactData.getHome());
     type(By.name("mobile"), contactData.getMobile());
     type(By.name("work"), contactData.getWork());
+
     type(By.name("email"), contactData.getEmail1());
     type(By.name("email2"), contactData.getEmail2());
     type(By.name("email3"), contactData.getEmail3());
 
-    //attach(By.name("photo"), contactData.getPhoto());
-
-    if (creation) new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
-    else {
-      Assert.assertFalse(isElementPresent(By.name("new_group")));
-    }
-
   }
-
   public void initContactCreation() {
     click(By.linkText("add new"));
   }
@@ -156,5 +154,23 @@ public class ContactHelper extends HelperBase{
     return new ContactData().withId(contact.getId()).withFirstname(info [0]).withLastname(info [1])
             .withAddress(info [2]).withHome(info [3]).withMobile(info [4]).withWork(info [5])
             .withEmail1(info [6]).withEmail2(info [7]).withEmail3(info [8]);
+  }
+
+
+  public void selectGroupForAdd(int id) {
+    new Select(wd.findElement(By.name("to_group"))).selectByValue(String.valueOf(id));
+  }
+
+
+  public void addToSelectedGroup() {
+    click(By.xpath("//*[@id=\"content\"]/form[2]/div[4]/input"));
+  }
+
+  public void selectGroup(int id) {
+    new Select(wd.findElement(By.name("group"))).selectByValue(String.valueOf(id));
+  }
+
+  public void delSelectedContactFromGroup() {
+    click(By.xpath("//*[@id=\"content\"]/form[2]/div[3]/input"));
   }
 }
